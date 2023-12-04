@@ -2,11 +2,9 @@ module Test.Data.FunctionMakerSpec where
 
 import Prelude
 
-import Control.Monad.Reader (ReaderT(..), runReaderT)
 import Data.Eq.Generic (genericEq)
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
-import Effect (Effect)
 import Effect.Aff (Aff)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
@@ -118,111 +116,123 @@ spec = do
     it "args 2" do
       let
         f = Data <<- f2
-        g = \a b -> Data $ f2 a b
+        g = \a1 a2 -> Data $ f2 a1 a2
       f "a" 1 `shouldEqual` g "a" 1
 
     it "args 3" do
       let 
         f = Data <<- f3
-        g = \a b c -> Data $ f3 a b c
+        g = \a1 a2 a3 -> Data $ f3 a1 a2 a3
       f "a" 1 true `shouldEqual` g "a" 1 true
 
     it "args 4" do
       let 
         f = Data <<- f4
-        g = \a b c d -> Data $ f4 a b c d
+        g = \a1 a2 a3 a4 -> Data $ f4 a1 a2 a3 a4
       f "a" 1 true "b" `shouldEqual` g "a" 1 true "b"
 
     it "args 5" do
       let 
         f = Data <<- f5
-        g = \a b c d e -> Data $ f5 a b c d e
+        g = \a1 a2 a3 a4 a5 -> Data $ f5 a1 a2 a3 a4 a5
       f "a" 1 true "b" 2 `shouldEqual` g "a" 1 true "b" 2
 
     it "args 6" do
       let 
         f = Data <<- f6
-        g = \a b c d e f -> Data $ f6 a b c d e f
+        g = \a1 a2 a3 a4 a5 a6 -> Data $ f6 a1 a2 a3 a4 a5 a6
       f "a" 1 true "b" 2 false `shouldEqual` g "a" 1 true "b" 2 false
 
     it "args 7" do
       let 
         f = Data <<- f7
-        g = \a b c d e f g -> Data $ f7 a b c d e f g
+        g = \a1 a2 a3 a4 a5 a6 a7 -> Data $ f7 a1 a2 a3 a4 a5 a6 a7
       f "a" 1 true "b" 2 false "c" `shouldEqual` g "a" 1 true "b" 2 false "c"
 
     it "args 8" do
       let 
         f = Data <<- f8
-        g = \a b c d e f g h -> Data $ f8 a b c d e f g h
+        g = \a1 a2 a3 a4 a5 a6 a7 a8 -> Data $ f8 a1 a2 a3 a4 a5 a6 a7 a8
       f "a" 1 true "b" 2 false "c" 3 `shouldEqual` g "a" 1 true "b" 2 false "c" 3
 
     it "args 9" do
       let 
         f = Data <<- f9
-        g = \a b c d e f g h i -> Data $ f9 a b c d e f g h i
+        g = \a1 a2 a3 a4 a5 a6 a7 a8 a9 -> Data $ f9 a1 a2 a3 a4 a5 a6 a7 a8 a9
       f "a" 1 true "b" 2 false "c" 3 true `shouldEqual` g "a" 1 true "b" 2 false "c" 3 true
 
   describe "make from (with input)" do
     it "args 1" do
       let
-        f = Data <<- \(Functions r) -> r.m1
-        g = \a1 -> Data $ \(Functions r) -> r.m1 a1
-      v <- runData (f "a") functions
-      w <- runData (g "a") functions
+        f = Data <<- \(Functions r) -> r.f1
+        g = \a1 -> Data $ \(Functions r) -> r.f1 a1
+        v = runData (f "a") functions
+        w = runData (g "a") functions
       v `shouldEqual` w
 
     it "args 2" do
       let
-        f = Data <<- \(Functions r) -> r.m2
-        g = \a1 a2 -> Data $ \(Functions r) -> r.m2 a1 a2
-      v <- runData (f "a" 0) functions
-      w <- runData (g "a" 0) functions
+        f = Data <<- \(Functions r) -> r.f2
+        g = \a1 a2 -> Data $ \(Functions r) -> r.f2 a1 a2
+        v = runData (f "a" 1) functions
+        w = runData (g "a" 1) functions
       v `shouldEqual` w
 
     it "args 3" do
       let
-        f = Data <<- \(Functions r) -> r.m3
-        g = \a1 a2 a3 -> Data $ \(Functions r) -> r.m3 a1 a2 a3
-      v <- runData (f "a" 0 true) functions
-      w <- runData (g "a" 0 true) functions
+        f = Data <<- \(Functions r) -> r.f3
+        g = \a1 a2 a3 -> Data $ \(Functions r) -> r.f3 a1 a2 a3
+        v = runData (f "a" 1 true) functions
+        w = runData (g "a" 1 true) functions
       v `shouldEqual` w
 
-    -- it "args 4" do
-    --   let 
-    --     f = Data <<- \(Functions r) -> r.f4
-    --     g = \(Functions r) a1 a2 a3 a4 -> Data $ r.f4 a1 a2 a3 a4
-    --   f functions "a" 1 true "b" `shouldEqual` g functions "a" 1 true "b"
+    it "args 4" do
+      let 
+        f = Data <<- \(Functions r) -> r.f4
+        g = \a1 a2 a3 a4 -> Data $ \(Functions r) -> r.f4 a1 a2 a3 a4
+        v = runData (f "a" 1 true "b") functions
+        w = runData (g "a" 1 true "b") functions
+      v `shouldEqual` w
 
-    -- it "args 5" do
-    --   let 
-    --     f = Data <<- \(Functions r) -> r.f5
-    --     g = \(Functions r) a1 a2 a3 a4 a5 -> Data $ r.f5 a1 a2 a3 a4 a5
-    --   f functions "a" 1 true "b" 2 `shouldEqual` g functions "a" 1 true "b" 2
+    it "args 5" do
+      let 
+        f = Data <<- \(Functions r) -> r.f5
+        g = \a1 a2 a3 a4 a5 -> Data $ \(Functions r) -> r.f5 a1 a2 a3 a4 a5
+        v = runData (f "a" 1 true "b" 2) functions
+        w = runData (g "a" 1 true "b" 2) functions
+      v `shouldEqual` w
 
-    -- it "args 6" do
-    --   let 
-    --     f = Data <<- \(Functions r) -> r.f6
-    --     g = \(Functions r) a1 a2 a3 a4 a5 a6 -> Data $ r.f6 a1 a2 a3 a4 a5 a6
-    --   f functions "a" 1 true "b" 2 false `shouldEqual` g functions "a" 1 true "b" 2 false
+    it "args 6" do
+      let 
+        f = Data <<- \(Functions r) -> r.f6
+        g = \a1 a2 a3 a4 a5 a6 -> Data $ \(Functions r) -> r.f6 a1 a2 a3 a4 a5 a6
+        v = runData (f "a" 1 true "b" 2 false) functions
+        w = runData (g "a" 1 true "b" 2 false) functions
+      v `shouldEqual` w
 
-    -- it "args 7" do
-    --   let 
-    --     f = Data <<- \(Functions r) -> r.f7
-    --     g = \(Functions r) a1 a2 a3 a4 a5 a6 a7 -> Data $ r.f7 a1 a2 a3 a4 a5 a6 a7
-    --   f functions "a" 1 true "b" 2 false "c" `shouldEqual` g functions "a" 1 true "b" 2 false "c"
+    it "args 7" do
+      let 
+        f = Data <<- \(Functions r) -> r.f7
+        g = \a1 a2 a3 a4 a5 a6 a7 -> Data $ \(Functions r) -> r.f7 a1 a2 a3 a4 a5 a6 a7
+        v = runData (f "a" 1 true "b" 2 false "c") functions
+        w = runData (g "a" 1 true "b" 2 false "c") functions
+      v `shouldEqual` w
 
-    -- it "args 8" do
-    --   let 
-    --     f = Data <<- \(Functions r) -> r.f8
-    --     g = \(Functions r) a1 a2 a3 a4 a5 a6 a7 a8 -> Data $ r.f8 a1 a2 a3 a4 a5 a6 a7 a8
-    --   f functions "a" 1 true "b" 2 false "c" 3 `shouldEqual` g functions "a" 1 true "b" 2 false "c" 3
+    it "args 8" do
+      let 
+        f = Data <<- \(Functions r) -> r.f8
+        g = \a1 a2 a3 a4 a5 a6 a7 a8 -> Data $ \(Functions r) -> r.f8 a1 a2 a3 a4 a5 a6 a7 a8
+        v = runData (f "a" 1 true "b" 2 false "c" 3) functions
+        w = runData (g "a" 1 true "b" 2 false "c" 3) functions
+      v `shouldEqual` w
 
-    -- it "args 9" do
-    --   let 
-    --     f = Data <<- \(Functions r) -> r.f9
-    --     g = \(Functions r) a1 a2 a3 a4 a5 a6 a7 a8 a9 -> Data $ r.f9 a1 a2 a3 a4 a5 a6 a7 a8 a9
-    --   f functions "a" 1 true "b" 2 false "c" 3 true `shouldEqual` g functions "a" 1 true "b" 2 false "c" 3 true
+    it "args 9" do
+      let 
+        f = Data <<- \(Functions r) -> r.f9
+        g = \a1 a2 a3 a4 a5 a6 a7 a8 a9 -> Data $ \(Functions r) -> r.f9 a1 a2 a3 a4 a5 a6 a7 a8 a9
+        v = runData (f "a" 1 true "b" 2 false "c" 3 true) functions
+        w = runData (g "a" 1 true "b" 2 false "c" 3 true) functions
+      v `shouldEqual` w
 
 data Data a = Data a
 derive instance genericData :: Generic (Data a) _
@@ -273,26 +283,26 @@ m9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> B
 m9 a b c d e f g h i = pure $ f9 a b c d e f g h i
 
 newtype Functions = Functions {
-  m1 :: String -> Aff String,
-  m2 :: String -> Int -> Aff String,
-  m3 :: String -> Int -> Boolean -> Aff String,
-  m4 :: String -> Int -> Boolean -> String -> Aff String,
-  m5 :: String -> Int -> Boolean -> String -> Int -> Aff String,
-  m6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String,
-  m7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Aff String,
-  m8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Aff String,
-  m9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
+  f1 :: String -> String,
+  f2 :: String -> Int -> String,
+  f3 :: String -> Int -> Boolean -> String,
+  f4 :: String -> Int -> Boolean -> String -> String,
+  f5 :: String -> Int -> Boolean -> String -> Int -> String,
+  f6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String,
+  f7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> String,
+  f8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> String,
+  f9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> String
 }
 
 functions :: Functions
 functions = Functions {
-  m1,
-  m2,
-  m3,
-  m4,
-  m5,
-  m6,
-  m7,
-  m8,
-  m9
+  f1,
+  f2,
+  f3,
+  f4,
+  f5,
+  f6,
+  f7,
+  f8,
+  f9
 }
