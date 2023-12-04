@@ -11,7 +11,9 @@ import Effect.Aff (Aff)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
-class FunctionMaker function return constructor | function -> return, return -> function where
+class FunctionMaker function return constructor | 
+  return -> constructor
+  where
   makeFrom :: constructor -> function -> return
 
 instance withInputArgs9 :: FunctionMaker
@@ -23,8 +25,8 @@ instance withInputArgs9 :: FunctionMaker
 else
 instance args9 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> o)
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> m o)
-  (o -> m o)
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> ret)
+  (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 a8 a9 = constructor $ function a1 a2 a3 a4 a5 a6 a7 a8 a9
 else
@@ -37,8 +39,8 @@ instance withInputArgs8 :: FunctionMaker
 else
 instance args8 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> o)
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> m o)
-  (o -> m o)
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> ret)
+  (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 a8 = constructor $ function a1 a2 a3 a4 a5 a6 a7 a8
 else
@@ -51,8 +53,8 @@ instance withInputArgs7 :: FunctionMaker
 else
 instance args7 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> o)
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> m o)
-  (o -> m o)
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> ret)
+  (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 = constructor $ function a1 a2 a3 a4 a5 a6 a7
 else
@@ -65,33 +67,33 @@ instance withInputArgs6 :: FunctionMaker
 else
 instance args6 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> o)
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> m o)
-  (o -> m o)
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> ret)
+  (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 = constructor $ function a1 a2 a3 a4 a5 a6
 else
 instance withInputArgs5 :: FunctionMaker (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> o)) (a1 -> a2 -> a3 -> a4 -> a5 -> ret) ((i -> o) -> ret) where
   makeFrom constructor function a1 a2 a3 a4 a5 = constructor $ \i -> function i a1 a2 a3 a4 a5
 else
-instance args5 :: FunctionMaker (a1 -> a2 -> a3 -> a4 -> a5 -> o) (a1 -> a2 -> a3 -> a4 -> a5 -> m o) (o -> m o) where
+instance args5 :: FunctionMaker (a1 -> a2 -> a3 -> a4 -> a5 -> o) (a1 -> a2 -> a3 -> a4 -> a5 -> ret) (o -> ret) where
   makeFrom constructor function a1 a2 a3 a4 a5 = constructor $ function a1 a2 a3 a4 a5
 else
 instance withInputArgs4 :: FunctionMaker (i -> (a1 -> a2 -> a3 -> a4 -> o)) (a1 -> a2 -> a3 -> a4 -> ret) ((i -> o) -> ret) where
   makeFrom constructor function a1 a2 a3 a4 = constructor $ \i -> function i a1 a2 a3 a4
 else
-instance args4 :: FunctionMaker (a1 -> a2 -> a3 -> a4 -> o) (a1 -> a2 -> a3 -> a4 -> m o) (o -> m o) where
+instance args4 :: FunctionMaker (a1 -> a2 -> a3 -> a4 -> o) (a1 -> a2 -> a3 -> a4 -> ret) (o -> ret) where
   makeFrom constructor function a1 a2 a3 a4 = constructor $ function a1 a2 a3 a4
 else
 instance withInputArgs3 :: FunctionMaker (i -> (a1 -> a2 -> a3 -> o)) (a1 -> a2 -> a3 -> ret) ((i -> o) -> ret) where
   makeFrom constructor function a1 a2 a3 = constructor $ \i -> function i a1 a2 a3
 else
-instance args3 :: FunctionMaker (a1 -> a2 -> a3 -> o) (a1 -> a2 -> a3 -> m o) (o -> m o) where
+instance args3 :: FunctionMaker (a1 -> a2 -> a3 -> o) (a1 -> a2 -> a3 -> ret) (o -> ret) where
   makeFrom constructor function a1 a2 a3 = constructor $ function a1 a2 a3
 else
 instance withInputArgs2 :: FunctionMaker (i -> (a1 -> a2 -> o)) (a1 -> a2 -> ret) ((i -> o) -> ret) where
   makeFrom constructor function a1 a2 = constructor $ \i -> function i a1 a2
 else
-instance args2 :: FunctionMaker (a1 -> a2 -> o) (a1 -> a2 -> m o) (o -> m o) where
+instance args2 :: FunctionMaker (a1 -> a2 -> o) (a1 -> a2 -> ret) (o -> ret) where
   makeFrom constructor function a1 a2 = constructor $ function a1 a2
 else
 instance withInputArgs1 :: FunctionMaker (i -> (a1 -> o)) (a1 -> ret) ((i -> o) -> ret) where
@@ -164,23 +166,27 @@ spec = do
   describe "make from (with input)" do
     it "args 1" do
       let
-        f = ReaderT <<- (\_ -> m1)
-        g = \a1 -> ReaderT $ \_ -> m1 a1
-      v <- runReaderT (f "a") 0
-      w <- runReaderT (g "a") 0
+        f = Data <<- \(Functions r) -> r.m1
+        g = \a1 -> Data $ \(Functions r) -> r.m1 a1
+      v <- runData (f "a") functions
+      w <- runData (g "a") functions
       v `shouldEqual` w
 
-    -- it "args 2" do
-    --   let
-    --     f = Data <<- \(Functions r) -> r.f2
-    --     g = \(Functions r) a1 a2 -> Data $ r.f2 a1 a2
-    --   f functions "a" 1 `shouldEqual` g functions "a" 1
+    it "args 2" do
+      let
+        f = Data <<- \(Functions r) -> r.m2
+        g = \a1 a2 -> Data $ \(Functions r) -> r.m2 a1 a2
+      v <- runData (f "a" 0) functions
+      w <- runData (g "a" 0) functions
+      v `shouldEqual` w
 
-    -- it "args 3" do
-    --   let 
-    --     f = Data <<- \(Functions r) -> r.f3
-    --     g = \(Functions r) a1 a2 a3 -> Data $ r.f3 a1 a2 a3
-    --   f functions "a" 1 true `shouldEqual` g functions "a" 1 true
+    it "args 3" do
+      let
+        f = Data <<- \(Functions r) -> r.m3
+        g = \a1 a2 a3 -> Data $ \(Functions r) -> r.m3 a1 a2 a3
+      v <- runData (f "a" 0 true) functions
+      w <- runData (g "a" 0 true) functions
+      v `shouldEqual` w
 
     -- it "args 4" do
     --   let 
@@ -225,8 +231,8 @@ instance showData :: Show a => Show (Data a) where
 instance eqData :: Eq a => Eq (Data a) where
   eq = genericEq
 
-m1 :: String -> Aff String
-m1 a = pure (f1 a)
+runData :: forall a. Data a -> a
+runData (Data a) = a
 
 f1 :: String -> String
 f1 a = "[" <> a <> "]"
@@ -247,27 +253,46 @@ f8 a b c d e f g h = "[" <> a <> show b <> show c <> d <> show e <> show f <> g 
 f9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> String
 f9 a b c d e f g h i = "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> show h <> show i <> "]"
 
+m1 :: String -> Aff String
+m1 a = pure (f1 a)
+m2 :: String -> Int -> Aff String
+m2 a b = pure $ f2 a b
+m3 :: String -> Int -> Boolean -> Aff String
+m3 a b c = pure $ f3 a b c
+m4 :: String -> Int -> Boolean -> String -> Aff String
+m4 a b c d = pure $ f4 a b c d
+m5 :: String -> Int -> Boolean -> String -> Int -> Aff String
+m5 a b c d e = pure $ f5 a b c d e
+m6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
+m6 a b c d e f = pure $ f6 a b c d e f
+m7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Aff String
+m7 a b c d e f g = pure $ f7 a b c d e f g
+m8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Aff String
+m8 a b c d e f g h = pure $ f8 a b c d e f g h
+m9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
+m9 a b c d e f g h i = pure $ f9 a b c d e f g h i
+
 newtype Functions = Functions {
-  f1 :: String -> String,
-  f2 :: String -> Int -> String,
-  f3 :: String -> Int -> Boolean -> String,
-  f4 :: String -> Int -> Boolean -> String -> String,
-  f5 :: String -> Int -> Boolean -> String -> Int -> String,
-  f6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String,
-  f7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> String,
-  f8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> String,
-  f9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> String
+  m1 :: String -> Aff String,
+  m2 :: String -> Int -> Aff String,
+  m3 :: String -> Int -> Boolean -> Aff String,
+  m4 :: String -> Int -> Boolean -> String -> Aff String,
+  m5 :: String -> Int -> Boolean -> String -> Int -> Aff String,
+  m6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String,
+  m7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Aff String,
+  m8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Aff String,
+  m9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
 }
 
 functions :: Functions
 functions = Functions {
-  f1,
-  f2,
-  f3,
-  f4,
-  f5,
-  f6,
-  f7,
-  f8,
-  f9
+  m1,
+  m2,
+  m3,
+  m4,
+  m5,
+  m6,
+  m7,
+  m8,
+  m9
 }
