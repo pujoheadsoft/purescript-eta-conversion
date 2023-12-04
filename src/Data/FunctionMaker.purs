@@ -6,9 +6,7 @@ module Data.FunctionMaker
 
 import Prelude
 
-class FunctionMaker function return constructor | 
-  return -> constructor
-  where
+class FunctionMaker function return constructor | return -> constructor where
   makeFrom :: constructor -> function -> return
 
 instance withInputArgs9 :: FunctionMaker
