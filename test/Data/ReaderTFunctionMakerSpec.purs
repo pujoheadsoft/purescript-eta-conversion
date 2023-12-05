@@ -8,10 +8,9 @@ import Effect.Aff (Aff)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
-
 spec :: Spec Unit
 spec = do
-  describe "make from (with input)" do
+  describe "ReaderT make from (with input)" do
     it "args 1" do
       let
         f = readerT _.m1
@@ -84,43 +83,24 @@ spec = do
       w <- runReaderT (g "a" 1 true "b" 2 false "c" 3 true) functions
       v `shouldEqual` w
 
-f1 :: String -> String
-f1 a = "[" <> a <> "]"
-f2 :: String -> Int -> String
-f2 a b = "[" <> a <> show b <> "]"
-f3 :: String -> Int -> Boolean -> String
-f3 a b c = "[" <> a <> show b <> show c <> "]"
-f4 :: String -> Int -> Boolean -> String -> String
-f4 a b c d = "[" <> a <> show b <> show c <> d <> "]"
-f5 :: String -> Int -> Boolean -> String -> Int -> String
-f5 a b c d e = "[" <> a <> show b <> show c <> d <> show e <> "]"
-f6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String
-f6 a b c d e f = "[" <> a <> show b <> show c <> d <> show e <> show f <> "]"
-f7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> String
-f7 a b c d e f g = "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> "]"
-f8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> String
-f8 a b c d e f g h = "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> show h <> "]"
-f9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> String
-f9 a b c d e f g h i = "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> show h <> show i <> "]"
-
 m1 :: String -> Aff String
-m1 a = pure (f1 a)
+m1 a = pure $ "[" <> a <> "]"
 m2 :: String -> Int -> Aff String
-m2 a b = pure $ f2 a b
+m2 a b = pure $ "[" <> a <> show b <> "]"
 m3 :: String -> Int -> Boolean -> Aff String
-m3 a b c = pure $ f3 a b c
+m3 a b c = pure $ "[" <> a <> show b <> show c <> "]"
 m4 :: String -> Int -> Boolean -> String -> Aff String
-m4 a b c d = pure $ f4 a b c d
+m4 a b c d = pure $ "[" <> a <> show b <> show c <> d <> "]"
 m5 :: String -> Int -> Boolean -> String -> Int -> Aff String
-m5 a b c d e = pure $ f5 a b c d e
+m5 a b c d e = pure $ "[" <> a <> show b <> show c <> d <> show e <> "]"
 m6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
-m6 a b c d e f = pure $ f6 a b c d e f
+m6 a b c d e f = pure $ "[" <> a <> show b <> show c <> d <> show e <> show f <> "]"
 m7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Aff String
-m7 a b c d e f g = pure $ f7 a b c d e f g
+m7 a b c d e f g = pure $ "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> "]"
 m8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Aff String
-m8 a b c d e f g h = pure $ f8 a b c d e f g h
+m8 a b c d e f g h = pure $ "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> show h <> "]"
 m9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
-m9 a b c d e f g h i = pure $ f9 a b c d e f g h i
+m9 a b c d e f g h i = pure $ "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> show h <> show i <> "]"
 
 functions :: { 
   m1 :: String -> Aff String, 
