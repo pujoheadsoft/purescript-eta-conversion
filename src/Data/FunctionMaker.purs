@@ -1,7 +1,9 @@
 module Data.FunctionMaker
   ( class FunctionMaker
   , makeFrom
-  , (<<-)
+  , (<<=)
+  , makeFromFlipped
+  , (=>>)
   ) where
 
 import Prelude
@@ -134,4 +136,9 @@ instance args1 :: FunctionMaker
   (o -> ret) where
   makeFrom constructor function a1 = constructor $ function a1
 
-infix 9 makeFrom as <<-
+infixr 9 makeFrom as <<=
+
+makeFromFlipped :: forall function return constructor. FunctionMaker function return constructor => function -> constructor -> return
+makeFromFlipped function constructor = makeFrom constructor function
+
+infixl 9 makeFromFlipped as =>>

@@ -3,7 +3,7 @@ module Test.Data.FunctionMakerSpec where
 import Prelude
 
 import Data.Eq.Generic (genericEq)
-import Data.FunctionMaker ((<<-))
+import Data.FunctionMaker ((<<=))
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
 import Effect.Aff (Aff)
@@ -15,62 +15,62 @@ spec = do
   describe "make from" do
     it "args 1" do
       let
-        f = Data <<- f1
+        f = Data <<= f1
         g = \a -> Data $ f1 a
       f "a" `shouldEqual` g "a"
     
     it "args 2" do
       let
-        f = Data <<- f2
+        f = Data <<= f2
         g = \a1 a2 -> Data $ f2 a1 a2
       f "a" 1 `shouldEqual` g "a" 1
 
     it "args 3" do
       let 
-        f = Data <<- f3
+        f = Data <<= f3
         g = \a1 a2 a3 -> Data $ f3 a1 a2 a3
       f "a" 1 true `shouldEqual` g "a" 1 true
 
     it "args 4" do
       let 
-        f = Data <<- f4
+        f = Data <<= f4
         g = \a1 a2 a3 a4 -> Data $ f4 a1 a2 a3 a4
       f "a" 1 true "b" `shouldEqual` g "a" 1 true "b"
 
     it "args 5" do
       let 
-        f = Data <<- f5
+        f = Data <<= f5
         g = \a1 a2 a3 a4 a5 -> Data $ f5 a1 a2 a3 a4 a5
       f "a" 1 true "b" 2 `shouldEqual` g "a" 1 true "b" 2
 
     it "args 6" do
       let 
-        f = Data <<- f6
+        f = Data <<= f6
         g = \a1 a2 a3 a4 a5 a6 -> Data $ f6 a1 a2 a3 a4 a5 a6
       f "a" 1 true "b" 2 false `shouldEqual` g "a" 1 true "b" 2 false
 
     it "args 7" do
       let 
-        f = Data <<- f7
+        f = Data <<= f7
         g = \a1 a2 a3 a4 a5 a6 a7 -> Data $ f7 a1 a2 a3 a4 a5 a6 a7
       f "a" 1 true "b" 2 false "c" `shouldEqual` g "a" 1 true "b" 2 false "c"
 
     it "args 8" do
       let 
-        f = Data <<- f8
+        f = Data <<= f8
         g = \a1 a2 a3 a4 a5 a6 a7 a8 -> Data $ f8 a1 a2 a3 a4 a5 a6 a7 a8
       f "a" 1 true "b" 2 false "c" 3 `shouldEqual` g "a" 1 true "b" 2 false "c" 3
 
     it "args 9" do
       let 
-        f = Data <<- f9
+        f = Data <<= f9
         g = \a1 a2 a3 a4 a5 a6 a7 a8 a9 -> Data $ f9 a1 a2 a3 a4 a5 a6 a7 a8 a9
       f "a" 1 true "b" 2 false "c" 3 true `shouldEqual` g "a" 1 true "b" 2 false "c" 3 true
 
   describe "make from (with input)" do
     it "args 1" do
       let
-        f = Data <<- \(Functions r) -> r.f1
+        f = Data <<= \(Functions r) -> r.f1
         g = \a1 -> Data $ \(Functions r) -> r.f1 a1
         v = runData (f "a") functions
         w = runData (g "a") functions
@@ -78,7 +78,7 @@ spec = do
 
     it "args 2" do
       let
-        f = Data <<- \(Functions r) -> r.f2
+        f = Data <<= \(Functions r) -> r.f2
         g = \a1 a2 -> Data $ \(Functions r) -> r.f2 a1 a2
         v = runData (f "a" 1) functions
         w = runData (g "a" 1) functions
@@ -86,7 +86,7 @@ spec = do
 
     it "args 3" do
       let
-        f = Data <<- \(Functions r) -> r.f3
+        f = Data <<= \(Functions r) -> r.f3
         g = \a1 a2 a3 -> Data $ \(Functions r) -> r.f3 a1 a2 a3
         v = runData (f "a" 1 true) functions
         w = runData (g "a" 1 true) functions
@@ -94,7 +94,7 @@ spec = do
 
     it "args 4" do
       let 
-        f = Data <<- \(Functions r) -> r.f4
+        f = Data <<= \(Functions r) -> r.f4
         g = \a1 a2 a3 a4 -> Data $ \(Functions r) -> r.f4 a1 a2 a3 a4
         v = runData (f "a" 1 true "b") functions
         w = runData (g "a" 1 true "b") functions
@@ -102,7 +102,7 @@ spec = do
 
     it "args 5" do
       let 
-        f = Data <<- \(Functions r) -> r.f5
+        f = Data <<= \(Functions r) -> r.f5
         g = \a1 a2 a3 a4 a5 -> Data $ \(Functions r) -> r.f5 a1 a2 a3 a4 a5
         v = runData (f "a" 1 true "b" 2) functions
         w = runData (g "a" 1 true "b" 2) functions
@@ -110,7 +110,7 @@ spec = do
 
     it "args 6" do
       let 
-        f = Data <<- \(Functions r) -> r.f6
+        f = Data <<= \(Functions r) -> r.f6
         g = \a1 a2 a3 a4 a5 a6 -> Data $ \(Functions r) -> r.f6 a1 a2 a3 a4 a5 a6
         v = runData (f "a" 1 true "b" 2 false) functions
         w = runData (g "a" 1 true "b" 2 false) functions
@@ -118,7 +118,7 @@ spec = do
 
     it "args 7" do
       let 
-        f = Data <<- \(Functions r) -> r.f7
+        f = Data <<= \(Functions r) -> r.f7
         g = \a1 a2 a3 a4 a5 a6 a7 -> Data $ \(Functions r) -> r.f7 a1 a2 a3 a4 a5 a6 a7
         v = runData (f "a" 1 true "b" 2 false "c") functions
         w = runData (g "a" 1 true "b" 2 false "c") functions
@@ -126,7 +126,7 @@ spec = do
 
     it "args 8" do
       let 
-        f = Data <<- \(Functions r) -> r.f8
+        f = Data <<= \(Functions r) -> r.f8
         g = \a1 a2 a3 a4 a5 a6 a7 a8 -> Data $ \(Functions r) -> r.f8 a1 a2 a3 a4 a5 a6 a7 a8
         v = runData (f "a" 1 true "b" 2 false "c" 3) functions
         w = runData (g "a" 1 true "b" 2 false "c" 3) functions
@@ -134,7 +134,7 @@ spec = do
 
     it "args 9" do
       let 
-        f = Data <<- \(Functions r) -> r.f9
+        f = Data <<= \(Functions r) -> r.f9
         g = \a1 a2 a3 a4 a5 a6 a7 a8 a9 -> Data $ \(Functions r) -> r.f9 a1 a2 a3 a4 a5 a6 a7 a8 a9
         v = runData (f "a" 1 true "b" 2 false "c" 3 true) functions
         w = runData (g "a" 1 true "b" 2 false "c" 3 true) functions
