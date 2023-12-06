@@ -8,7 +8,34 @@ module Data.FunctionMaker
 
 import Prelude
 
-class FunctionMaker function return constructor | return -> constructor where
+class FunctionMaker function return constructor |
+  return -> constructor
+  -- function -> return
+  -- function -> constructor
+  -- return -> function
+  -- return -> constructor
+  -- constructor -> function
+  -- constructor -> return
+  -- function -> return, function -> constructor
+  -- return -> function, return -> constructor
+  -- constructor -> function, constructor -> return
+  -- function -> return, function -> constructor, return -> function
+  -- function -> return, function -> constructor, return -> constructor
+  -- return -> function, return -> constructor, function -> return
+  -- return -> function, return -> constructor, constructor -> return
+  -- constructor -> function, constructor -> return, return -> function
+  -- constructor -> function, constructor -> return, function -> return
+  -- function -> return, function -> constructor, return -> function, return -> constructor
+  -- function -> return, function -> constructor, return -> function, constructor -> return
+  -- return -> function, return -> constructor, function -> return, function -> constructor
+  -- return -> function, return -> constructor, function -> return, constructor -> function
+  -- constructor -> function, constructor -> return, return -> function, function -> constructor
+  -- constructor -> function, constructor -> return, return -> function, return -> constructor
+  -- function -> return, function -> constructor, return -> function, return -> constructor, constructor -> return
+  -- return -> function, return -> constructor, function -> return, function -> constructor, constructor -> function
+  -- constructor -> function, constructor -> return, return -> function, function -> constructor, constructor -> function
+  -- function -> return, function -> constructor, return -> function, return -> constructor, constructor -> return, constructor -> function
+  where
   makeFrom :: constructor -> function -> return
 
 instance withInputArgs9 :: FunctionMaker
