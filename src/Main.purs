@@ -2,16 +2,17 @@ module Main where
 
 import Prelude
 
-import Data.FunctionMaker ((<<=))
+import Data.FunctionMaker ((<<:), (<<|))
 import Data.Maybe (Maybe(..))
 
--- concat :: String -> String -> String
--- concat = (<>)
+example1 :: forall a. Semigroup a => a -> a -> Maybe a
+example1 v1 v2 = Just $ v1 <> v2
 
+example2 :: forall a. Semigroup a => a -> a -> Maybe a
+example2 = Just <<| (<>)
 
--- --hoge :: String -> String -> Maybe String
+example3 :: forall a. Semigroup a => a -> Maybe (a -> a)
+example3 a = Just $ \v -> v <> a
 
--- data Data a = Data a
-
--- xxx :: String -> String -> Maybe String
--- xxx = Just <<= concat
+example4 :: forall a. Semigroup a => a -> Maybe (a -> a)
+example4 = Just <<: (<>)
