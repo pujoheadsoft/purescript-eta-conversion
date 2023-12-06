@@ -4,60 +4,25 @@ module Data.FunctionMaker
   , (<<=)
   , makeFromFlipped
   , (=>>)
+  , class WithInputFunctionMaker
+  , makeFromWithInput
+  , (<==)
   ) where
 
 import Prelude
 
 class FunctionMaker function return constructor |
-  return -> constructor
-  -- function -> return
-  -- function -> constructor
-  -- return -> function
-  -- return -> constructor
-  -- constructor -> function
-  -- constructor -> return
-  -- function -> return, function -> constructor
-  -- return -> function, return -> constructor
-  -- constructor -> function, constructor -> return
-  -- function -> return, function -> constructor, return -> function
-  -- function -> return, function -> constructor, return -> constructor
-  -- return -> function, return -> constructor, function -> return
-  -- return -> function, return -> constructor, constructor -> return
-  -- constructor -> function, constructor -> return, return -> function
-  -- constructor -> function, constructor -> return, function -> return
-  -- function -> return, function -> constructor, return -> function, return -> constructor
-  -- function -> return, function -> constructor, return -> function, constructor -> return
-  -- return -> function, return -> constructor, function -> return, function -> constructor
-  -- return -> function, return -> constructor, function -> return, constructor -> function
-  -- constructor -> function, constructor -> return, return -> function, function -> constructor
-  -- constructor -> function, constructor -> return, return -> function, return -> constructor
-  -- function -> return, function -> constructor, return -> function, return -> constructor, constructor -> return
-  -- return -> function, return -> constructor, function -> return, function -> constructor, constructor -> function
-  -- constructor -> function, constructor -> return, return -> function, function -> constructor, constructor -> function
-  -- function -> return, function -> constructor, return -> function, return -> constructor, constructor -> return, constructor -> function
+  return -> constructor,
+  constructor -> return
   where
   makeFrom :: constructor -> function -> return
 
-instance withInputArgs9 :: FunctionMaker
-  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> o))
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 a8 a9 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6 a7 a8 a9
-else
 instance args9 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> o)
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> ret)
   (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 a8 a9 = constructor $ function a1 a2 a3 a4 a5 a6 a7 a8 a9
-else
-instance withInputArgs8 :: FunctionMaker
-  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> o))
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 a8 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6 a7 a8
 else
 instance args8 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> o)
@@ -66,26 +31,12 @@ instance args8 :: FunctionMaker
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 a8 = constructor $ function a1 a2 a3 a4 a5 a6 a7 a8
 else
-instance withInputArgs7 :: FunctionMaker
-  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> o))
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6 a7
-else
 instance args7 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> o)
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> ret)
   (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 a7 = constructor $ function a1 a2 a3 a4 a5 a6 a7
-else
-instance withInputArgs6 :: FunctionMaker
-  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> o))
-  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 a3 a4 a5 a6 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6
 else
 instance args6 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> o)
@@ -94,26 +45,12 @@ instance args6 :: FunctionMaker
   where
   makeFrom constructor function a1 a2 a3 a4 a5 a6 = constructor $ function a1 a2 a3 a4 a5 a6
 else
-instance withInputArgs5 :: FunctionMaker
-  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> o))
-  (a1 -> a2 -> a3 -> a4 -> a5 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 a3 a4 a5 = constructor $ \i -> function i a1 a2 a3 a4 a5
-else
 instance args5 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> o)
   (a1 -> a2 -> a3 -> a4 -> a5 -> ret)
   (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 a4 a5 = constructor $ function a1 a2 a3 a4 a5
-else
-instance withInputArgs4 :: FunctionMaker
-  (i -> (a1 -> a2 -> a3 -> a4 -> o))
-  (a1 -> a2 -> a3 -> a4 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 a3 a4 = constructor $ \i -> function i a1 a2 a3 a4
 else
 instance args4 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> o)
@@ -122,26 +59,12 @@ instance args4 :: FunctionMaker
   where
   makeFrom constructor function a1 a2 a3 a4 = constructor $ function a1 a2 a3 a4
 else
-instance withInputArgs3 :: FunctionMaker
-  (i -> (a1 -> a2 -> a3 -> o))
-  (a1 -> a2 -> a3 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 a3 = constructor $ \i -> function i a1 a2 a3
-else
 instance args3 :: FunctionMaker
   (a1 -> a2 -> a3 -> o)
   (a1 -> a2 -> a3 -> ret)
   (o -> ret)
   where
   makeFrom constructor function a1 a2 a3 = constructor $ function a1 a2 a3
-else
-instance withInputArgs2 :: FunctionMaker
-  (i -> (a1 -> a2 -> o))
-  (a1 -> a2 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 a2 = constructor $ \i -> function i a1 a2
 else
 instance args2 :: FunctionMaker
   (a1 -> a2 -> o)
@@ -150,20 +73,84 @@ instance args2 :: FunctionMaker
   where
   makeFrom constructor function a1 a2 = constructor $ function a1 a2
 else
-instance withInputArgs1 :: FunctionMaker
-  (i -> (a1 -> o))
-  (a1 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 = constructor $ \i -> function i a1
-else
 instance args1 :: FunctionMaker
   (a1 -> o)
   (a1 -> ret)
   (o -> ret) where
   makeFrom constructor function a1 = constructor $ function a1
 
+
+class WithInputFunctionMaker function return constructor |
+  return -> constructor,
+  constructor -> return
+  where
+  makeFromWithInput :: constructor -> function -> return
+
+instance withInputArgs9 :: WithInputFunctionMaker
+  (i -> a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> o)
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 a3 a4 a5 a6 a7 a8 a9 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6 a7 a8 a9
+else
+instance withInputArgs8 :: WithInputFunctionMaker
+  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> o))
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 a3 a4 a5 a6 a7 a8 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6 a7 a8
+else
+instance withInputArgs7 :: WithInputFunctionMaker
+  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> o))
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 a3 a4 a5 a6 a7 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6 a7
+else
+instance withInputArgs6 :: WithInputFunctionMaker
+  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> o))
+  (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 a3 a4 a5 a6 = constructor $ \i -> function i a1 a2 a3 a4 a5 a6
+else
+instance withInputArgs5 :: WithInputFunctionMaker
+  (i -> (a1 -> a2 -> a3 -> a4 -> a5 -> o))
+  (a1 -> a2 -> a3 -> a4 -> a5 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 a3 a4 a5 = constructor $ \i -> function i a1 a2 a3 a4 a5
+else
+instance withInputArgs4 :: WithInputFunctionMaker
+  (i -> (a1 -> a2 -> a3 -> a4 -> o))
+  (a1 -> a2 -> a3 -> a4 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 a3 a4 = constructor $ \i -> function i a1 a2 a3 a4
+else
+instance withInputArgs3 :: WithInputFunctionMaker
+  (i -> (a1 -> a2 -> a3 -> o))
+  (a1 -> a2 -> a3 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 a3 = constructor $ \i -> function i a1 a2 a3
+else
+instance withInputArgs2 :: WithInputFunctionMaker
+  (i -> (a1 -> a2 -> o))
+  (a1 -> a2 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 a2 = constructor $ \i -> function i a1 a2
+else
+instance withInputArgs1 :: WithInputFunctionMaker
+  (i -> (a1 -> o))
+  (a1 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFromWithInput constructor function a1 = constructor $ \i -> function i a1
+
 infixr 9 makeFrom as <<=
+infixr 9 makeFromWithInput as <==
 
 makeFromFlipped :: forall function return constructor. FunctionMaker function return constructor => function -> constructor -> return
 makeFromFlipped function constructor = makeFrom constructor function
