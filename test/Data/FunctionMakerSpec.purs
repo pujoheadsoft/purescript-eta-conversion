@@ -7,7 +7,6 @@ import Data.FunctionMaker ((<<=))
 import Data.Generic.Rep (class Generic)
 import Data.Maybe (Maybe(..))
 import Data.Show.Generic (genericShow)
-import Effect.Aff (Aff)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
@@ -15,7 +14,7 @@ concat :: String -> String -> String
 concat = (<>)
 
 xxx :: String -> String -> Maybe String
-xxx = Just <<= concat
+xxx = Just <<= (<>)@String
 
 spec :: Spec Unit
 spec = do
@@ -175,25 +174,6 @@ f8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> S
 f8 a b c d e f g h = "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> show h <> "]"
 f9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> String
 f9 a b c d e f g h i = "[" <> a <> show b <> show c <> d <> show e <> show f <> g <> show h <> show i <> "]"
-
-m1 :: String -> Aff String
-m1 a = pure (f1 a)
-m2 :: String -> Int -> Aff String
-m2 a b = pure $ f2 a b
-m3 :: String -> Int -> Boolean -> Aff String
-m3 a b c = pure $ f3 a b c
-m4 :: String -> Int -> Boolean -> String -> Aff String
-m4 a b c d = pure $ f4 a b c d
-m5 :: String -> Int -> Boolean -> String -> Int -> Aff String
-m5 a b c d e = pure $ f5 a b c d e
-m6 :: String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
-m6 a b c d e f = pure $ f6 a b c d e f
-m7 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Aff String
-m7 a b c d e f g = pure $ f7 a b c d e f g
-m8 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Aff String
-m8 a b c d e f g h = pure $ f8 a b c d e f g h
-m9 :: String -> Int -> Boolean -> String -> Int -> Boolean -> String -> Int -> Boolean -> Aff String
-m9 a b c d e f g h i = pure $ f9 a b c d e f g h i
 
 newtype Functions = Functions {
   f1 :: String -> String,
