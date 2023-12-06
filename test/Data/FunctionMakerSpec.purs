@@ -5,10 +5,17 @@ import Prelude
 import Data.Eq.Generic (genericEq)
 import Data.FunctionMaker ((<<=))
 import Data.Generic.Rep (class Generic)
+import Data.Maybe (Maybe(..))
 import Data.Show.Generic (genericShow)
 import Effect.Aff (Aff)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
+
+concat :: String -> String -> String
+concat = (<>)
+
+xxx :: String -> String -> Maybe String
+xxx = Just <<= concat
 
 spec :: Spec Unit
 spec = do

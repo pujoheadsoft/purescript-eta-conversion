@@ -67,13 +67,7 @@ instance withInputArgs2 :: FunctionMaker
   where
   makeFrom constructor function a1 a2 = constructor $ \i -> function i a1 a2
 else
-instance withInputArgs1 :: FunctionMaker
-  (i -> (a1 -> o))
-  (a1 -> ret)
-  ((i -> o) -> ret)
-  where
-  makeFrom constructor function a1 = constructor $ \i -> function i a1
-else
+
 instance args9 :: FunctionMaker
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> o)
   (a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7 -> a8 -> a9 -> ret)
@@ -129,6 +123,13 @@ instance args2 :: FunctionMaker
   (o -> ret)
   where
   makeFrom constructor function a1 a2 = constructor $ function a1 a2
+else
+instance withInputArgs1 :: FunctionMaker
+  (i -> (a1 -> o))
+  (a1 -> ret)
+  ((i -> o) -> ret)
+  where
+  makeFrom constructor function a1 = constructor $ \i -> function i a1
 else
 instance args1 :: FunctionMaker
   (a1 -> o)
