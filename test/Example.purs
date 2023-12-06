@@ -1,0 +1,38 @@
+module Example where
+
+import Prelude
+
+import Control.Monad.Reader (ReaderT(..))
+import Data.FunctionMaker ((<<:), (<<|))
+import Data.ReaderTFunctionMaker (readerT)
+import Type.Equality (class TypeEquals, to)
+
+newtype Result a = Result a
+
+fun :: String -> Int -> Boolean -> String
+fun _ _ _ = ""
+
+exampleA1 :: String -> Int -> Boolean -> Result String
+exampleA1 s i b = Result $ fun s i b
+
+exampleA2 :: String -> Int -> Boolean -> Result String
+exampleA2 = Result <<| fun
+
+newtype Functions = Functions {
+  fun :: String -> Int -> Boolean -> String
+}
+runFunctions :: Functions -> { fun :: String -> Int -> Boolean -> String }
+runFunctions (Functions r) = r
+
+exampleB1 :: String -> Int -> Boolean -> Result (Functions -> String)
+exampleB1 s i b = Result $ (\f -> f.fun s i b) <<< runFunctions
+
+exampleB2 :: String -> Int -> Boolean -> Result (Functions -> String)
+exampleB2 = Result <<: _.fun <<< runFunctions
+
+
+exampleC1 :: forall r m. TypeEquals r { fun :: String -> m Unit } => String -> ReaderT r m Unit
+exampleC1 s = ReaderT $ \r -> (to r).fun s
+
+exampleC2 :: forall r m. TypeEquals r { fun :: String -> m Unit } => String -> ReaderT r m Unit
+exampleC2 = readerT _.fun

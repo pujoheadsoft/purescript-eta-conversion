@@ -84,7 +84,8 @@ instance args1 :: FunctionMaker
 
 class WithInputFunctionMaker function return constructor |
   return -> constructor,
-  constructor -> return
+  constructor -> return,
+  return -> function
   where
   makeFromWith :: constructor -> function -> return
 
