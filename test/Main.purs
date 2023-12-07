@@ -4,10 +4,12 @@ import Prelude
 
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Test.Data.FunctionMakerSpec (spec)
+import Test.Data.EtaConversionTransformerSpec (spec) 
+import Test.Data.ReaderTEtaConversionTransformerSpec as ReaderTTransformer
 import Test.Spec.Reporter (specReporter)
 import Test.Spec.Runner (runSpec)
 
 main :: Effect Unit
 main = launchAff_ $ runSpec [ specReporter ] do
   spec
+  ReaderTTransformer.spec

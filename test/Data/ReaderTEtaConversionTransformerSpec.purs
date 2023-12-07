@@ -1,16 +1,16 @@
-module Test.Data.ReaderTFunctionMakerSpec where
+module Test.Data.ReaderTEtaConversionTransformerSpec where
 
 import Prelude
 
 import Control.Monad.Reader (ReaderT(..), runReaderT)
-import Data.ReaderTFunctionMaker (readerT)
+import Data.ReaderTEtaConversionTransformer (readerT)
 import Effect.Aff (Aff)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
 spec :: Spec Unit
 spec = do
-  describe "ReaderT make from (with input)" do
+  describe "transform to eta conversion (ReaderT With TypeEquals)" do
     it "args 1" do
       let
         f = readerT _.m1

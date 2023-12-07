@@ -1,4 +1,4 @@
-module Data.ReaderTFunctionMaker where
+module Data.ReaderTEtaConversionTransformer where
 
 import Prelude
 

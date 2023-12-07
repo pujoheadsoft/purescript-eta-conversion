@@ -3,8 +3,8 @@ module Example where
 import Prelude
 
 import Control.Monad.Reader (ReaderT(..))
-import Data.FunctionMaker ((<<:), (<<|))
-import Data.ReaderTFunctionMaker (readerT)
+import Data.EtaConversionTransformer ((<<:), (<<|))
+import Data.ReaderTEtaConversionTransformer (readerT)
 import Type.Equality (class TypeEquals, to)
 
 newtype Result a = Result a

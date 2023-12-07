@@ -1,9 +1,9 @@
-module Test.Data.FunctionMakerSpec where
+module Test.Data.EtaConversionTransformerSpec where
 
 import Prelude
 
 import Data.Eq.Generic (genericEq)
-import Data.FunctionMaker ((<<|), (<<:))
+import Data.EtaConversionTransformer ((<<:), (<<|))
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
 import Test.Spec (Spec, describe, it)
@@ -11,7 +11,7 @@ import Test.Spec.Assertions (shouldEqual)
 
 spec :: Spec Unit
 spec = do
-  describe "make from" do
+  describe "transform to eta conversion" do
     it "args 1" do
       let
         f = Data <<| f1
@@ -66,7 +66,7 @@ spec = do
         g = \a1 a2 a3 a4 a5 a6 a7 a8 a9 -> Data $ f9 a1 a2 a3 a4 a5 a6 a7 a8 a9
       f "a" 1 true "b" 2 false "c" 3 true `shouldEqual` g "a" 1 true "b" 2 false "c" 3 true
 
-  describe "make from (with input)" do
+  describe "transform to eta conversion (with input)" do
     it "args 1" do
       let
         f = Data <<: \(Functions r) -> r.f1
