@@ -47,7 +47,7 @@ exampleA2 = \s i b -> Result $ fun s i b
 `<<|`は最大9つまでの引数に対応しています。
 
 ### 「関数を持つデータ構造を生成する関数」を生成する
-次のようにデータ構造`Result`、`Functions`と`Functions`の内容を取り出す関数`runFunctions`と、これらを利用する関数`exampleB1`があるとします。
+次のようにデータ構造`Result`,`Functions`と、`Functions`の内容を取り出す関数`runFunctions`と、これらを利用する関数`exampleB1`があるとします。
 ```haskell
 newtype Result a = Result a
 
