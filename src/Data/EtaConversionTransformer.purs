@@ -160,5 +160,5 @@ transformWithFlipped function constructor = transformWith constructor function
 
 infixr 9 transform as <<|
 infixr 9 transformWith as <<:
-infixl 9 transformFlipped as |>>
-infixl 9 transformWithFlipped as :>>
+infixr 8 transformFlipped as |>>
+infixr 8 transformWithFlipped as :>>
