@@ -43,11 +43,14 @@ exampleC1 s = ReaderT $ \r -> (to r).fun s
 exampleC2 :: forall r m. TypeEquals r { fun :: String -> m Unit } => String -> ReaderT r m Unit
 exampleC2 = readerT _.fun
 
-rotated :: Boolean -> String -> Int -> String
-rotated = rotate fun
+rotate1 :: Boolean -> String -> Int -> String
+rotate1 = rotate fun
 
+rotate2 :: Int -> Boolean -> String -> String
+rotate2 = rotate $ rotate fun
 
-rotateRepeat = rotate $ rotate fun
+rotate3 :: String -> Int -> Boolean -> String
+rotate3 = rotate $ rotate $ rotate fun
 
 appliedLast :: String -> Int -> String
 appliedLast = fun <^ true
