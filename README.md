@@ -49,6 +49,28 @@ When there are three or more arguments, the number of arguments in the signature
 
 `<<|` supports up to 9 arguments.
 
+### Generate a new function with left-rotated order of argument definitions
+The `rotate` function can be used to generate a new function with a shifted argument definition as follows.
+```haskell
+import Data.ArgsRotater (rotate)
+
+fun :: String -> Int -> Boolean -> String
+fun _ _ _ = ""
+
+example :: Boolean -> String -> Int -> String
+example = rotate fun
+```
+The `<^` operator can be used to create a new function with the last argument already applied.
+```haskell
+import Data.ArgsRotater ((<^))
+
+fun :: String -> Int -> Boolean -> String
+fun _ _ _ = ""
+
+example :: String -> Int -> String
+example = fun <^ true -- last args applied function
+```
+
 ### Generate a 'function that generates a data structure with a  function'
 Suppose we have the following data structures `Result`,`Functions`, a function `runFunctions` to retrieve the contents of `Functions`, and a function `exampleB1` to use them.
 ```haskell

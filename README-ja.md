@@ -47,6 +47,28 @@ exampleA2 = \s i b -> Result $ fun s i b
 
 `<<|`は最大9つまでの引数に対応しています。
 
+### 引数の定義順を左回転させた新たな関数を生成する
+`rotate`関数を使うと、次のように引数の定義をずらした新たな関数を生成することができます。
+```haskell
+import Data.ArgsRotater (rotate)
+
+fun :: String -> Int -> Boolean -> String
+fun _ _ _ = ""
+
+example :: Boolean -> String -> Int -> String
+example = rotate fun
+```
+中置演算子`<^`を使うと、最後の引数が適用済みの新たな関数を生成することができます。
+```haskell
+import Data.ArgsRotater ((<^))
+
+fun :: String -> Int -> Boolean -> String
+fun _ _ _ = ""
+
+example :: String -> Int -> String
+example = fun <^ true -- last args applied function
+```
+
 ### 「関数を持つデータ構造を生成する関数」を生成する
 次のようにデータ構造`Result`,`Functions`と、`Functions`の内容を取り出す関数`runFunctions`と、これらを利用する関数`exampleB1`があるとします。
 ```haskell

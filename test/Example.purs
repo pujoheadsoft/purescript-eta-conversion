@@ -3,6 +3,7 @@ module Example where
 import Prelude
 
 import Control.Monad.Reader (ReaderT(..))
+import Data.ArgsRotater (rotate, (<<^), (<^))
 import Data.EtaConversionTransformer ((:>>), (<<:), (<<|), (|>>))
 import Data.ReaderTEtaConversionTransformer (readerT)
 import Type.Equality (class TypeEquals, to)
@@ -41,3 +42,15 @@ exampleC1 s = ReaderT $ \r -> (to r).fun s
 
 exampleC2 :: forall r m. TypeEquals r { fun :: String -> m Unit } => String -> ReaderT r m Unit
 exampleC2 = readerT _.fun
+
+rotated :: Boolean -> String -> Int -> String
+rotated = rotate fun
+
+
+rotateRepeat = rotate $ rotate fun
+
+appliedLast :: String -> Int -> String
+appliedLast = fun <^ true
+
+reverseExample :: String -> String
+reverseExample = fun <<^ true <<^ 10
