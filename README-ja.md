@@ -1,5 +1,8 @@
 # purescript-eta-conversion
 
+[![Latest release](http://img.shields.io/github/release/pujoheadsoft/purescript-eta-conversion.svg)](https://github.com/pujoheadsoft/purescript-eta-conversion/releases)
+[![Pursuit](https://pursuit.purescript.org/packages/purescript-eta-conversion/badge)](https://pursuit.purescript.org/packages/purescript-eta-conversionpujoheadsoft)
+
 イータ変換化をサポートするライブラリ
 
 関数を元にイータ変換可能な新たな関数を生成します
