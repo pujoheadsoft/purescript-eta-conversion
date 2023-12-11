@@ -1,5 +1,8 @@
 # purescript-eta-conversion
 
+[![Latest release](http://img.shields.io/github/release/pujoheadsoft/purescript-eta-conversion.svg)](https://github.com/pujoheadsoft/purescript-eta-conversion/releases)
+[![Pursuit](https://pursuit.purescript.org/packages/purescript-eta-conversion/badge)](https://pursuit.purescript.org/packages/purescript-eta-conversionpujoheadsoft)
+
 Libraries that support eta conversion.
 
 Generates a new function that can be eta conversion from function.
