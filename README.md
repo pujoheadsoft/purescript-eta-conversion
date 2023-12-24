@@ -2,6 +2,8 @@
 
 [![Latest release](http://img.shields.io/github/release/pujoheadsoft/purescript-eta-conversion.svg)](https://github.com/pujoheadsoft/purescript-eta-conversion/releases)
 [![Pursuit](https://pursuit.purescript.org/packages/purescript-eta-conversion/badge)](https://pursuit.purescript.org/packages/purescript-eta-conversionpujoheadsoft)
+[![CI](https://github.com/pujoheadsoft/purescript-eta-conversion/workflows/CI/badge.svg)](https://github.com/pujoheadsoft/purescript-eta-conversion/actions?query=workflow%3ACI+branch%3Amaster)
+
 
 Libraries that support eta conversion.
 
